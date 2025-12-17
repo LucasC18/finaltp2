@@ -1,0 +1,111 @@
+@host = http://localhost:3000
+@contentType = application/json
+
+################################################
+# 🔐 AUTH — LOGIN (JWT)
+################################################
+
+### Login (obtener token)
+# @name login
+POST {{host}}/api/v1/auth/login
+Content-Type: {{contentType}}
+
+{
+  "username": "lucas"
+}
+
+### Guardar token JWT
+@token = {{login.response.body.token}}
+
+################################################
+# 📦 PRODUCTOS — CREATE
+################################################
+
+### Crear producto (sin auth)
+# @name createProduct
+POST {{host}}/api/v1/productos
+Content-Type: {{contentType}}
+
+{
+  "producto": "Tornillos",
+  "stockAmount": 40
+}
+
+### Guardar ID del producto
+@productId = {{createProduct.response.body._id}}
+
+################################################
+# 📄 PRODUCTOS — GET ALL
+################################################
+
+### Listar productos
+GET {{host}}/api/v1/productos
+Accept: application/json
+
+################################################
+# 🔍 PRODUCTOS — GET BY ID
+################################################
+
+### Obtener producto por ID
+GET {{host}}/api/v1/productos/{{productId}}
+Accept: application/json
+
+################################################
+# ✏️ PRODUCTOS — UPDATE (CON JWT)
+################################################
+
+### Update producto (JWT requerido)
+PUT {{host}}/api/v1/productos/{{productId}}
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "stockAmount": 20
+}
+
+################################################
+# ❌ PRODUCTOS — UPDATE SIN JWT (DEBE FALLAR)
+################################################
+
+### Update sin JWT
+PUT {{host}}/api/v1/productos/{{productId}}
+Content-Type: {{contentType}}
+
+{
+  "stockAmount": 30
+}
+
+################################################
+# 🗑️ PRODUCTOS — DELETE (CON JWT)
+################################################
+
+### Delete producto (JWT requerido)
+DELETE {{host}}/api/v1/productos/{{productId}}
+Authorization: Bearer {{token}}
+
+################################################
+# ❌ PRODUCTOS — DELETE SIN JWT (DEBE FALLAR)
+################################################
+
+### Delete sin JWT
+DELETE {{host}}/api/v1/productos/{{productId}}
+
+################################################
+# 📁 ALBUMS — CSV
+################################################
+
+### Descargar CSV de albums (sin auth)
+GET {{host}}/api/v1/albums/csv
+
+################################################
+# 🔼 INCREMENTAR STOCK (mínimo 1)
+################################################
+
+PATCH {{host}}/api/v1/productos/{{productId}}/stock
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "incremento": 1
+}
+

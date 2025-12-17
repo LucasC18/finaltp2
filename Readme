@@ -1,0 +1,61 @@
+Proyecto Backend: Gestión de Productos (Stock)
+Requisitos
+
+Node.js (versión 14 o superior)
+
+MongoDB (si usas MongoDB) o Modo JSON para testing
+
+Instalación
+
+Clonar el repositorio:
+
+git clone https://github.com/tu-usuario/proyecto-stock-api.git
+cd proyecto-stock-api
+
+
+Instalar dependencias:
+
+npm install
+
+
+Configurar variables de entorno:
+
+Crea un archivo .env en la raíz del proyecto con las siguientes variables:
+
+SERVER_PORT=3000
+SERVER_HOST=localhost
+MONGO_URI=mongodb+srv://<usuario>:<contraseña>@cluster0.mongodb.net/<base-de-datos>
+JWT_SECRET=super_secret_key
+API_KEY=123456
+
+Levantar el Proyecto
+
+Modo MongoDB (requiere MongoDB Atlas o local):
+
+Si usas MongoDB Atlas o tienes una base de datos local, asegúrate de tener la URL correcta en el .env. Luego, ejecuta:
+
+npm run dev
+
+
+Modo JSON (sin MongoDB, solo para testing local):
+
+Si prefieres no usar MongoDB, puedes trabajar con datos en formato JSON modificando el código para usar JSON en vez de MongoDB en las funciones de servicios y repositorios.
+
+Para levantar el servidor en este modo, ejecuta el mismo comando:
+
+npm run dev
+
+
+Las rutas seguirán funcionando igual, pero no habrá persistencia real en base de datos.
+
+Rutas de la API
+
+POST /api/v1/productos: Crear producto.
+
+GET /api/v1/productos: Listar productos.
+
+GET /api/v1/productos/:id: Obtener producto por ID.
+
+PUT /api/v1/productos/:id: Editar producto.
+
+DELETE /api/v1/productos/:id: Eliminar producto.
